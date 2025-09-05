@@ -10,8 +10,8 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #fff;
-    /* background ảnh trong thư mục images */
-    background: url('images/hihu.jpg') no-repeat center center fixed;
+    /* background ảnh từ thư mục hihu.poster */
+    background: url('hihu.poster/hihu.jpg') no-repeat center center fixed;
     background-size: cover;
   }
   h1 {
@@ -76,30 +76,4 @@
   // Danh sách video (cùng cấp với index.html)
   const videos = ['Video1.mp4','Video2.mp4','Video3.mp4'];
 
-  const container = document.getElementById('videoContainer');
-  const player = document.getElementById('player');
-  const myVideo = document.getElementById('myVideo');
-
-  videos.forEach(src => {
-    const tab = document.createElement('div');
-    tab.className = 'video-tab';
-    tab.textContent = src; // hiển thị tên video
-    tab.onclick = () => openVideo(src);
-    container.appendChild(tab);
-  });
-
-  function openVideo(src){
-    myVideo.src = src;
-    player.style.display = 'flex';
-    myVideo.play();
-  }
-
-  function closeVideo(){
-    myVideo.pause();
-    myVideo.src = '';
-    player.style.display = 'none';
-  }
-</script>
-
-</body>
-</html>
+  const container
