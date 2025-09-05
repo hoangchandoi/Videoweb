@@ -1,125 +1,197 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Video Web</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #0d0d0d;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .poster {
-      position: relative;
-      cursor: pointer;
-    }
-    .poster img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    }
-    .play-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60px;
-      height: 60px;
-      background: rgba(255,0,0,0.8);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .play-btn::before {
-      content: "";
-      display: block;
-      margin-left: 5px;
-      width: 0;
-      height: 0;
-      border-left: 20px solid white;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-    }
-    #player {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 1000;
-    }
-    #player video {
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 12px;
-    }
-    #close {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: red;
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Web Video</title>
+<style>
+  /* ===== Body & Font ===== */
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    color: #222;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+  }
+
+  /* ===== Grid Video ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .poster {
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .poster:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  }
+
+  .poster img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== Nút Play ===== */
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0,123,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+  }
+
+  .play-btn::before {
+    content: "";
+    display: block;
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border-left: 18px solid white;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+
+  .poster:hover .play-btn {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  /* ===== Overlay Player ===== */
+  #player {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #player.show {
+    opacity: 1;
+  }
+
+  #player video {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    background: black;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+  }
+
+  #close {
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: #ff4c4c;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  #close:hover {
+    background: #e04343;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    body {padding: 10px;}
+    .grid {grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;}
+    #player video {max-height: 60vh;}
+  }
+</style>
 </head>
 <body>
-  <h1>🎬 Bộ sưu tập video</h1>
-  <div class="grid">
-    <!-- Video 1 -->
-    <div class="poster" onclick="playVideo('Video1.mp4')">
-      <img src="poster1.jpg" alt="Video 1">
-      <div class="play-btn"></div>
-    </div>
-    <!-- Video 2 -->
-    <div class="poster" onclick="playVideo('Video2.mp4')">
-      <img src="poster2.jpg" alt="Video 2">
-      <div class="play-btn"></div>
-    </div>
-    <!-- Video 3 -->
-    <div class="poster" onclick="playVideo('Video3.mp4')">
-      <img src="poster3.jpg" alt="Video 3">
-      <div class="play-btn"></div>
-    </div>
-  </div>
 
-  <div id="player">
-    <video id="myVideo" controls autoplay></video>
-    <button id="close" onclick="closePlayer()">Đóng</button>
-  </div>
+<h1>🎬 Danh sách video</h1>
+<div class="grid" id="videoGrid"></div>
 
-  <script>
-    function playVideo(src) {
-      const player = document.getElementById("player");
-      const video = document.getElementById("myVideo");
-      video.src = src;
-      player.style.display = "flex";
-      video.play();
-    }
-    function closePlayer() {
-      const player = document.getElementById("player");
-      const video = document.getElementById("myVideo");
-      video.pause();
-      player.style.display = "none";
-    }
-  </script>
+<div id="player">
+  <video id="myVideo" controls autoplay></video>
+  <button id="close" onclick="closePlayer()">Đóng</button>
+</div>
+
+<script>
+  // ==== Thêm video mới chỉ cần push vào mảng này ====
+  const videos = [
+    {src: 'videos/Video1.mp4', poster: 'posters/poster1.jpg', title: 'Video 1'},
+    {src: 'videos/Video2.mp4', poster: 'posters/poster2.jpg', title: 'Video 2'},
+    {src: 'videos/Video3.mp4', poster: 'posters/poster3.jpg', title: 'Video 3'},
+    // Ví dụ thêm video mới:
+    // {src: 'videos/Video4.mp4', poster: 'posters/poster4.jpg', title: 'Video 4'},
+  ];
+
+  const grid = document.getElementById('videoGrid');
+
+  videos.forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'poster';
+    div.onclick = () => playVideo(v.src);
+
+    const img = document.createElement('img');
+    img.src = v.poster;
+    img.alt = v.title;
+
+    const playBtn = document.createElement('div');
+    playBtn.className = 'play-btn';
+
+    div.appendChild(img);
+    div.appendChild(playBtn);
+    grid.appendChild(div);
+  });
+
+  function playVideo(src) {
+    const player = document.getElementById("player");
+    const video = document.getElementById("myVideo");
+    video.src = src;
+    player.style.display = "flex";
+    setTimeout(() => player.classList.add("show"), 10);
+    video.play();
+  }
+
+  function closePlayer() {
+    const player = document.getElementById("player");
+    const video = document.getElementById("myVideo");
+    video.pause();
+    player.classList.remove("show");
+    setTimeout(() => { player.style.display = "none"; }, 300);
+  }
+</script>
+
 </body>
 </html>
-
