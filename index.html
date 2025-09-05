@@ -3,31 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Web Đơn Giản</title>
+<title>TienHoang Web</title>
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #e0f0ff; /* nền sáng xanh nhẹ */
+    color: #000;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .video-tab {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: #fff;
+  }
+  .video-tab video {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
 </head>
 <body>
-<h1>Video Web Đơn Giản</h1>
 
-<div id="videos"></div>
+<h1>TienHoang Web</h1>
+
+<div id="videoContainer"></div>
 
 <script>
-  // Thêm tên video vào mảng
+  // Danh sách video
   const videos = [
     'Video1.mp4',
     'Video2.mp4',
     'Video3.mp4'
   ];
 
-  const container = document.getElementById('videos');
+  const container = document.getElementById('videoContainer');
 
   videos.forEach(src => {
-    const video = document.createElement('video');
-    video.src = src;
-    video.controls = true;
-    video.width = 480; // hoặc auto tuỳ ý
-    video.style.display = 'block';
-    video.style.marginBottom = '20px';
-    container.appendChild(video);
+    const tab = document.createElement('div');
+    tab.className = 'video-tab';
+
+    const videoEl = document.createElement('video');
+    videoEl.src = src;
+    videoEl.controls = true;
+
+    tab.appendChild(videoEl);
+    container.appendChild(tab);
   });
 </script>
 
