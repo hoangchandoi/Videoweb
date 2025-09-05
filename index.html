@@ -6,24 +6,26 @@
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 20px;
       background: #0d0d0d;
       font-family: Arial, sans-serif;
       color: white;
     }
-    .container {
+    h1 {
       text-align: center;
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
     }
     .poster {
       position: relative;
-      display: inline-block;
+      cursor: pointer;
     }
     .poster img {
-      max-width: 90vw;
-      max-height: 70vh;
+      width: 100%;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     }
@@ -32,19 +34,13 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       background: rgba(255,0,0,0.8);
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .play-btn:hover {
-      background: rgba(255,0,0,1);
-      transform: translate(-50%, -50%) scale(1.1);
     }
     .play-btn::before {
       content: "";
@@ -52,39 +48,78 @@
       margin-left: 5px;
       width: 0;
       height: 0;
-      border-left: 25px solid white;
-      border-top: 15px solid transparent;
-      border-bottom: 15px solid transparent;
+      border-left: 20px solid white;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
     }
-    video {
+    #player {
       display: none;
-      max-width: 90vw;
-      max-height: 70vh;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+    }
+    #player video {
+      max-width: 90%;
+      max-height: 80vh;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    #close {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: red;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎬 Video của mình</h1>
-    <div class="poster" id="poster">
-      <img src="https://i.imgur.com/zYIlgBl.jpg" alt="Poster">
-      <div class="play-btn" onclick="playVideo()"></div>
+  <h1>🎬 Bộ sưu tập video</h1>
+  <div class="grid">
+    <!-- Video 1 -->
+    <div class="poster" onclick="playVideo('Video1.mp4')">
+      <img src="poster1.jpg" alt="Video 1">
+      <div class="play-btn"></div>
     </div>
-    <video id="myVideo" controls>
-      <source src="Video.mp4" type="video/mp4">
-      Trình duyệt của bạn không hỗ trợ video.
-    </video>
+    <!-- Video 2 -->
+    <div class="poster" onclick="playVideo('Video2.mp4')">
+      <img src="poster2.jpg" alt="Video 2">
+      <div class="play-btn"></div>
+    </div>
+    <!-- Video 3 -->
+    <div class="poster" onclick="playVideo('Video3.mp4')">
+      <img src="poster3.jpg" alt="Video 3">
+      <div class="play-btn"></div>
+    </div>
+  </div>
+
+  <div id="player">
+    <video id="myVideo" controls autoplay></video>
+    <button id="close" onclick="closePlayer()">Đóng</button>
   </div>
 
   <script>
-    function playVideo() {
-      document.getElementById("poster").style.display = "none";
+    function playVideo(src) {
+      const player = document.getElementById("player");
       const video = document.getElementById("myVideo");
-      video.style.display = "block";
+      video.src = src;
+      player.style.display = "flex";
       video.play();
+    }
+    function closePlayer() {
+      const player = document.getElementById("player");
+      const video = document.getElementById("myVideo");
+      video.pause();
+      player.style.display = "none";
     }
   </script>
 </body>
 </html>
+
