@@ -8,32 +8,83 @@
       margin: 0;
       height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      background: #0d0d0d;
       font-family: Arial, sans-serif;
       color: white;
+    }
+    .container {
       text-align: center;
     }
-    h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    .poster {
+      position: relative;
+      display: inline-block;
     }
-    video {
-      max-width: 90%;
+    .poster img {
+      max-width: 90vw;
       max-height: 70vh;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(255,0,0,0.8);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .play-btn:hover {
+      background: rgba(255,0,0,1);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    .play-btn::before {
+      content: "";
+      display: block;
+      margin-left: 5px;
+      width: 0;
+      height: 0;
+      border-left: 25px solid white;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+    }
+    video {
+      display: none;
+      max-width: 90vw;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     }
   </style>
 </head>
 <body>
-  <h1>🎬 Video của mình</h1>
-  <video controls autoplay>
-    <source src="Video.mp4" type="video/mp4">
-    Trình duyệt của bạn không hỗ trợ video.
-  </video>
+  <div class="container">
+    <h1>🎬 Video của mình</h1>
+    <div class="poster" id="poster">
+      <img src="https://i.imgur.com/zYIlgBl.jpg" alt="Poster">
+      <div class="play-btn" onclick="playVideo()"></div>
+    </div>
+    <video id="myVideo" controls>
+      <source src="Video.mp4" type="video/mp4">
+      Trình duyệt của bạn không hỗ trợ video.
+    </video>
+  </div>
+
+  <script>
+    function playVideo() {
+      document.getElementById("poster").style.display = "none";
+      const video = document.getElementById("myVideo");
+      video.style.display = "block";
+      video.play();
+    }
+  </script>
 </body>
 </html>
