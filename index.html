@@ -2,23 +2,35 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>My Video</title>
+  <title>Video Web</title>
   <style>
     body {
+      margin: 0;
+      height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #000;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     }
     video {
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 90%;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
   </style>
 </head>
 <body>
+  <h1>🎬 Video của mình</h1>
   <video controls autoplay>
     <source src="Video.mp4" type="video/mp4">
     Trình duyệt của bạn không hỗ trợ video.
