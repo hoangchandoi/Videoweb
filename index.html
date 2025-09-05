@@ -9,7 +9,7 @@
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
-    background: #e0f0ff; /* nền sáng xanh nhẹ */
+    background: #e0f0ff;
     color: #000;
   }
   h1 {
@@ -22,12 +22,12 @@
     margin-bottom: 20px;
     border-radius: 8px;
     background: #fff;
+    text-align: center;
   }
-  .video-tab video {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 0 auto;
+  .video-tab a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
   }
 </style>
 </head>
@@ -35,30 +35,9 @@
 
 <h1>TienHoang Web</h1>
 
-<div id="videoContainer"></div>
-
-<script>
-  // Danh sách video
-  const videos = [
-    'Video1.mp4',
-    'Video2.mp4',
-    'Video3.mp4'
-  ];
-
-  const container = document.getElementById('videoContainer');
-
-  videos.forEach(src => {
-    const tab = document.createElement('div');
-    tab.className = 'video-tab';
-
-    const videoEl = document.createElement('video');
-    videoEl.src = src;
-    videoEl.controls = true;
-
-    tab.appendChild(videoEl);
-    container.appendChild(tab);
-  });
-</script>
+<div class="video-tab"><a href="video1.html">Video1</a></div>
+<div class="video-tab"><a href="video2.html">Video2</a></div>
+<div class="video-tab"><a href="video3.html">Video3</a></div>
 
 </body>
 </html>
