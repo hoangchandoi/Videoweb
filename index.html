@@ -3,46 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎬 Web Video</title>
+<title>🎬 Bộ sưu tập video</title>
 <style>
   /* ===== Body & Font ===== */
   body {
     margin: 0;
     padding: 20px;
+    background: #1e3a8a; /* xanh nước biển */
     font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    color: #222;
+    color: white;
   }
+
   h1 {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.8em;
+    margin-bottom: 30px;
+    font-size: 2em;
   }
 
   /* ===== Grid Video ===== */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
   }
 
   .poster {
     position: relative;
     cursor: pointer;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    background: white;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .poster:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
   }
 
   .poster img {
     width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     display: block;
   }
 
@@ -52,9 +45,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: rgba(0,123,255,0.9);
+    width: 60px;
+    height: 60px;
+    background: rgba(255,0,0,0.8);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -65,12 +58,12 @@
   .play-btn::before {
     content: "";
     display: block;
-    margin-left: 4px;
+    margin-left: 5px;
     width: 0;
     height: 0;
-    border-left: 18px solid white;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
+    border-left: 20px solid white;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
   }
 
   .poster:hover .play-btn {
@@ -83,7 +76,7 @@
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(255,255,255,0.95);
+    background: rgba(0,0,0,0.9);
     backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
@@ -99,10 +92,9 @@
   }
 
   #player video {
-    max-width: 100%;
-    max-height: 70vh;
-    border-radius: 8px;
-    background: black;
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 12px;
     animation: fadeIn 0.3s ease;
   }
 
@@ -112,25 +104,23 @@
   }
 
   #close {
-    margin-top: 12px;
-    padding: 8px 16px;
-    background: #ff4c4c;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: red;
     border: none;
     color: white;
-    font-weight: bold;
-    font-size: 14px;
-    border-radius: 5px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background 0.2s;
   }
 
   #close:hover {
-    background: #e04343;
+    background: #cc0000;
   }
 
   /* ===== Responsive ===== */
   @media (max-width: 600px) {
-    body {padding: 10px;}
     .grid {grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;}
     #player video {max-height: 60vh;}
   }
@@ -138,7 +128,7 @@
 </head>
 <body>
 
-<h1>🎬 Danh sách video</h1>
+<h1>🎬 Bộ sưu tập video</h1>
 <div class="grid" id="videoGrid"></div>
 
 <div id="player">
@@ -147,13 +137,12 @@
 </div>
 
 <script>
-  // ==== Thêm video mới chỉ cần push vào mảng này ====
+  // ==== Thêm video mới chỉ cần thêm vào mảng này ====
   const videos = [
     {src: 'videos/Video1.mp4', poster: 'posters/poster1.jpg', title: 'Video 1'},
     {src: 'videos/Video2.mp4', poster: 'posters/poster2.jpg', title: 'Video 2'},
     {src: 'videos/Video3.mp4', poster: 'posters/poster3.jpg', title: 'Video 3'},
-    // Ví dụ thêm video mới:
-    // {src: 'videos/Video4.mp4', poster: 'posters/poster4.jpg', title: 'Video 4'},
+    // Thêm video mới ở đây
   ];
 
   const grid = document.getElementById('videoGrid');
@@ -161,7 +150,7 @@
   videos.forEach(v => {
     const div = document.createElement('div');
     div.className = 'poster';
-    div.onclick = () => playVideo(v.src);
+    div.onclick = () => playVideo(v.src, v.poster);
 
     const img = document.createElement('img');
     img.src = v.poster;
@@ -175,21 +164,22 @@
     grid.appendChild(div);
   });
 
-  function playVideo(src) {
+  function playVideo(src, poster){
     const player = document.getElementById("player");
     const video = document.getElementById("myVideo");
     video.src = src;
+    video.poster = poster;
     player.style.display = "flex";
-    setTimeout(() => player.classList.add("show"), 10);
+    setTimeout(()=>player.classList.add("show"),10);
     video.play();
   }
 
-  function closePlayer() {
+  function closePlayer(){
     const player = document.getElementById("player");
     const video = document.getElementById("myVideo");
     video.pause();
     player.classList.remove("show");
-    setTimeout(() => { player.style.display = "none"; }, 300);
+    setTimeout(()=>player.style.display="none",300);
   }
 </script>
 
