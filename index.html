@@ -19,6 +19,10 @@
     margin-bottom: 30px;
     text-shadow: 1px 1px 4px #000;
   }
+  #videoContainer {
+    max-width: 800px;
+    margin: 0 auto;
+  }
   .video-tab {
     border: 1px solid #ccc;
     padding: 15px;
@@ -32,6 +36,7 @@
   .video-tab:hover {
     background: rgba(0,0,0,0.8);
   }
+
   /* Overlay video fullscreen */
   #player {
     display: none;
@@ -43,10 +48,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 9999; /* Đảm bảo overlay luôn trên các phần khác */
   }
   #player video {
-    max-width: 90%;
+    width: 90%;
     max-height: 80vh;
   }
   #closeBtn {
@@ -73,7 +78,34 @@
 </div>
 
 <script>
-  // Danh sách video (cùng cấp với index.html)
+  // Danh sách video (đặt cùng cấp với index.html)
   const videos = ['Video1.mp4','Video2.mp4','Video3.mp4'];
 
-  const container
+  const container = document.getElementById('videoContainer');
+  const player = document.getElementById('player');
+  const myVideo = document.getElementById('myVideo');
+
+  // Hiển thị danh sách video
+  videos.forEach(src => {
+    const tab = document.createElement('div');
+    tab.className = 'video-tab';
+    tab.textContent = src; // hiển thị tên video
+    tab.onclick = () => openVideo(src);
+    container.appendChild(tab);
+  });
+
+  function openVideo(src){
+    myVideo.src = src;
+    player.style.display = 'flex';
+    myVideo.play();
+  }
+
+  function closeVideo(){
+    myVideo.pause();
+    myVideo.src = '';
+    player.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
